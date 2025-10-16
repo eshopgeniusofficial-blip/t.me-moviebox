@@ -5,10 +5,12 @@
   <title>Movie Box</title>
   <!-- Mobile Responsive -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Font Awesome for Telegram Icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-pap6T/fErU0Vg93V9iOaw5bH7eP+Qx+V8YjN3hY+X1Jl0N+Oa6N2p3g+nWrkXc5MZl69m8bqDkpYlJwZwO0w1g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     body {
-      background-color: #ffffff; /* সাদা ব্যাকগ্রাউন্ড */
-      color: #000000; /* টেক্সট কালো */
+      background-color: #ffffff;
+      color: #000000;
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 20px;
@@ -34,37 +36,6 @@
       margin-bottom: 15px;
     }
 
-    .details {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .details div {
-      text-align: center;
-    }
-
-    .details .label {
-      color: #999;
-    }
-
-    .details .value-type {
-      color: #00C853;
-      font-weight: bold;
-    }
-
-    .details .value-lang {
-      color: #FFAB00;
-      font-weight: bold;
-    }
-
-    .details .value-quality {
-      color: #00B0FF;
-      font-weight: bold;
-    }
-
     .download-buttons a,
     .watch-button,
     .group-buttons a {
@@ -82,31 +53,15 @@
       transition: 0.3s;
     }
 
-    .download-buttons a {
-      background-color: #00bcd4;
-      color: #ffffff;
-    }
-
-    .download-buttons a:hover {
-      background-color: #0097a7;
-    }
-
     .watch-button {
       background-color: #0088CC;
       color: white;
     }
 
-    .group-buttons a.facebook {
-      background-color: #4267B2;
-      color: white;
+    .watch-button i {
+      margin-right: 8px; /* icon spacing */
     }
 
-    .group-buttons a.telegram {
-      background-color: #0088cc;
-      color: white;
-    }
-
-    /* Mobile Font Adjustments */
     @media (max-width: 480px) {
       .title {
         font-size: 22px;
@@ -129,7 +84,9 @@
 
   <!-- Watch Online / Join Channel Button -->
   <div class="watch-online-button">
-    <a onclick="multiRedirect('https://t.me/movieboxbd01')" class="watch-button">JOIN CHANNEL</a>
+    <a onclick="multiRedirect('https://t.me/movieboxbd01')" class="watch-button">
+      <i class="fab fa-telegram-plane"></i> Join Telegram Channel
+    </a>
   </div>
 
   <!-- Movie Poster -->
@@ -148,9 +105,7 @@
   <!-- JavaScript for Redirect -->
   <script>
     function multiRedirect(mainLink) {
-      // Open ad link in new tab
       window.open("https://cutt.ly/srkB4vFf", "_blank");
-      // Redirect current tab to main download page
       window.location.href = mainLink;
     }
   </script>
