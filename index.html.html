@@ -1,64 +1,131 @@
-<!doctype html>
-<html lang="bn">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>মুভি চ্যানেল - Telegram Join</title>
+  <meta charset="UTF-8"></meta>
+  <title>Movie Box</title>
   <style>
-    body{font-family:"Noto Sans Bengali",sans-serif;background:#f5f7fa;margin:0;padding:0;text-align:center}
-    .container{max-width:720px;margin:auto;padding:20px}
-    h1{font-size:20px;margin-bottom:4px}
-    p{color:#555;margin-top:0}
-    .marked{margin:14px auto;width:160px;height:46px;border:5px solid #009dff;border-radius:8px;display:flex;align-items:center;justify-content:center}
-    .telegram-mini,.telegram-big{
-      display:inline-block;background:#009dff;color:#fff;text-decoration:none;padding:10px 20px;
-      border-radius:30px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.2)
+    body {
+      background-color: #1c1c1c;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
     }
-    .telegram-big{padding:14px 34px;font-size:18px;margin-top:20px;display:inline-block}
-    .card{background:#500000;color:#fff;border-radius:12px;padding:14px;margin-top:12px}
-    .thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
-    .thumbs img{width:100%;height:120px;object-fit:cover;border-radius:6px}
-    footer{margin-top:20px;color:#666;font-size:13px}
+    img.poster {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .title {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+    .info {
+      color: orange;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    .details {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .details div {
+      text-align: center;
+    }
+    .details div p {
+      margin: 5px 0;
+    }
+    .details .label {
+      color: #999;
+    }
+    .details .value-type {
+      color: #00C853;
+      font-weight: bold;
+    }
+    .details .value-lang {
+      color: #FFAB00;
+      font-weight: bold;
+    }
+    .details .value-quality {
+      color: #00B0FF;
+      font-weight: bold;
+    }
+    .download-buttons a {
+      background-color: #00bcd4;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+    .download-buttons a:hover {
+      background-color: #0097a7;
+    }
+    .watch-button {
+      background-color: #e53935;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    .group-buttons {
+      margin: 30px 0;
+    }
+    .group-buttons a {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .facebook {
+      background-color: #4267B2;
+      color: white;
+    }
+    .telegram {
+      background-color: #0088cc;
+      color: white;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>মুভি নিয়ে কাজ করবো</h1>
-    <p>সব রকমের মুভিই আমাদের চ্যানেলে আছে</p>
-
-    <div class="marked">
-      <a class="telegram-mini" href="#" onclick="goToLink()">Join</a>
-    </div>
-
-<div class="separator" style="clear: both;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi4FrRU6Qbr1U1eOsjQz30sEQCtSqedklxmtcmeh9cBz86F9XTZjpXk56kj_Y7w0UAwcUnGsuGYdZgUg3_5vWZwESzpMjVAkrA5hAZFwgxt1o2EJuFOPh2_mjFOWiNCpFwUci29idDtK6I_RrORIPeXEMdPzvfFEQFm9wn_LPqr9_iUZOA5lUSRoQime2hL/s1600/pexels-pixabay-267350.jpg" style="display: block; padding: 1em 0; text-align: center; "><img alt="" border="0" data-original-height="3241" data-original-width="4467" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi4FrRU6Qbr1U1eOsjQz30sEQCtSqedklxmtcmeh9cBz86F9XTZjpXk56kj_Y7w0UAwcUnGsuGYdZgUg3_5vWZwESzpMjVAkrA5hAZFwgxt1o2EJuFOPh2_mjFOWiNCpFwUci29idDtK6I_RrORIPeXEMdPzvfFEQFm9wn_LPqr9_iUZOA5lUSRoQime2hL/s1600/pexels-pixabay-267350.jpg"/></a></div>
-
-    <a class="telegram-big" href="#" onclick="goToLink()">Telegram Join Now</a>
-
-    <footer>Shared by: <strong>Sumaiya Mim</strong></footer>
+  
+  <!-- Title -->
+  <div class="title">Movie Box</div>
+  
+  <h2 style="text-align: center;"><span style="color: red; font-size: xx-large;">SCREENSHOT</span></h2>
+     <!-- Watch Online Button -->
+  <div class="watch-online-button" style="margin: 20px 0; text-align: center;">
+    <a onclick="multiRedirect('https://moviehub2bd.blogspot.com/p/your-download-is-ready-yout-fault-hindi.html')" style="background-color: #e53935; border-radius: 6px; color: white; display: inline-block; font-weight: bold; padding: 12px 20px; text-decoration: none;">🎬 Watch Online</a>
   </div>
+  
+ <div class="separator" style="clear: both;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjw-qb63Nx8lsq3_d8kf7Mgf8dwbct3BfNpqV6Nv2YlWnmE7LiPF2tfzDWPlDP4wSXDbl0aDKUQ-jcmXKbRmXRpUeTdQUqpAyx2t0W4r5-M4ToXpe5nUDoUgMvtoqIxVRBxDIjFRp6MDn_dFfNqgIs-JWIoIdzJ95JUpg2MmTF7x8lK0eewsRafvsedIEXV/s1600/Sunny%20Sanskari%20Ki%20Tulsi%20Kumari%20%5BHindi%5D%5BCAM%5D.png" style="display: block; padding: 1em 0; text-align: center; "><img alt="" border="0" data-original-height="320" data-original-width="640" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjw-qb63Nx8lsq3_d8kf7Mgf8dwbct3BfNpqV6Nv2YlWnmE7LiPF2tfzDWPlDP4wSXDbl0aDKUQ-jcmXKbRmXRpUeTdQUqpAyx2t0W4r5-M4ToXpe5nUDoUgMvtoqIxVRBxDIjFRp6MDn_dFfNqgIs-JWIoIdzJ95JUpg2MmTF7x8lK0eewsRafvsedIEXV/s1600/Sunny%20Sanskari%20Ki%20Tulsi%20Kumari%20%5BHindi%5D%5BCAM%5D.png"/></a></div>
+  
+  <h2 style="text-align: center;"><span style="background-color: white; color: red; font-size: x-large;">DOWNLOAD LINK👇&nbsp;</span></h2>
 
+  <!--Shared By-->
+  <p style="color: #555555; font-style: italic; margin-top: 10px;">Shared By <strong>Movie Box</strong></p>
+  
+  <!-- JavaScript for Redirect -->
   <script>
-    // প্রথমে যাবে যেই লিংকে:
-    const FIRST_URL = "https://example.com/landing";  
-    // পরে (back করলে) টেলিগ্রাম লিংক:
-    const TELEGRAM_URL = "https://t.me/yourchannel";  
-
-    function goToLink() {
-      // localStorage দিয়ে Telegram লিংক সংরক্ষণ
-      localStorage.setItem("nextLink", TELEGRAM_URL);
-      // প্রথমে অন্য লিংকে রিডাইরেক্ট
-      window.location.href = FIRST_URL;
+    function multiRedirect(mainLink) {
+      // Open ad link in new tab
+      window.open("https://cutt.ly/srkB4vFf", "_blank");
+      // Redirect current tab to main download page
+      window.location.href = mainLink;
     }
-
-    // যদি কেউ ওই অন্য পেজ থেকে ব্যাক করে আসে, তাহলে Telegram খুলে দেবে
-    window.addEventListener("pageshow", () => {
-      const next = localStorage.getItem("nextLink");
-      if (next) {
-        localStorage.removeItem("nextLink");
-        window.location.href = next;
-      }
-    });
   </script>
+
 </body>
 </html>
-
+</div><br />&nbsp;<p></p>
