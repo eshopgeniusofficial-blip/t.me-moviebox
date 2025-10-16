@@ -1,121 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8"></meta>
+  <meta charset="UTF-8">
   <title>Movie Box</title>
+  <!-- Mobile Responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background-color: #ffffff;
-      color: #ffffff;
+      background-color: #ffffff; /* সাদা ব্যাকগ্রাউন্ড */
+      color: #000000; /* টেক্সট কালো */
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 20px;
+      margin: 0;
     }
+
+    .title {
+      font-size: 28px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      color: #e53935;
+    }
+
+    h2 span {
+      font-weight: bold;
+    }
+
     img.poster {
       width: 100%;
       max-width: 300px;
+      height: auto;
       border-radius: 8px;
       margin-bottom: 15px;
     }
-    .title {
-      font-size: 28px;
-      margin-bottom: 5px;
-    }
-    .info {
-      color: orange;
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
+
     .details {
       display: flex;
       justify-content: center;
-      gap: 50px;
-      margin-bottom: 20px;
+      gap: 20px;
       flex-wrap: wrap;
+      margin-bottom: 20px;
     }
+
     .details div {
       text-align: center;
     }
-    .details div p {
-      margin: 5px 0;
-    }
+
     .details .label {
       color: #999;
     }
+
     .details .value-type {
       color: #00C853;
       font-weight: bold;
     }
+
     .details .value-lang {
       color: #FFAB00;
       font-weight: bold;
     }
+
     .details .value-quality {
       color: #00B0FF;
       font-weight: bold;
     }
+
+    .download-buttons a,
+    .watch-button,
+    .group-buttons a {
+      width: 80%;
+      max-width: 300px;
+      padding: 12px 20px;
+      margin: 10px auto;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 5px;
+      display: block;
+      font-weight: bold;
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
     .download-buttons a {
       background-color: #00bcd4;
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 16px;
-      color: white;
-      border-radius: 5px;
-      text-decoration: none;
-      display: inline-block;
-      transition: background-color 0.3s;
-      cursor: pointer;
+      color: #ffffff;
     }
+
     .download-buttons a:hover {
       background-color: #0097a7;
     }
+
     .watch-button {
       background-color: #0088CC;
       color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-size: 16px;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 10px;
     }
-    .group-buttons {
-      margin: 30px 0;
-    }
-    .group-buttons a {
-      display: inline-block;
-      padding: 10px 20px;
-      margin: 10px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .facebook {
+
+    .group-buttons a.facebook {
       background-color: #4267B2;
       color: white;
     }
-    .telegram {
+
+    .group-buttons a.telegram {
       background-color: #0088cc;
       color: white;
+    }
+
+    /* Mobile Font Adjustments */
+    @media (max-width: 480px) {
+      .title {
+        font-size: 22px;
+      }
+      .download-buttons a,
+      .watch-button,
+      .group-buttons a {
+        font-size: 14px;
+        padding: 10px;
+      }
     }
   </style>
 </head>
 <body>
-  
   <!-- Title -->
   <div class="title">Movie Box</div>
-  
-  <h2 style="text-align: center;"><span style="color: red; font-size: xx-large;">SCREENSHOT</span></h2>
-     <!-- Watch Online Button -->
-  <div class="watch-online-button" style="margin: 20px 0; text-align: center;">
-    <a onclick="multiRedirect('https://t.me/movieboxbd01')" style="background-color: #0088CC; border-radius: 6px; color: white; display: inline-block; font-weight: bold; padding: 12px 20px; text-decoration: none;">JOIN CHANNEL</a>
-  </div>
-  
- <div class="separator" style="clear: both;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjw-qb63Nx8lsq3_d8kf7Mgf8dwbct3BfNpqV6Nv2YlWnmE7LiPF2tfzDWPlDP4wSXDbl0aDKUQ-jcmXKbRmXRpUeTdQUqpAyx2t0W4r5-M4ToXpe5nUDoUgMvtoqIxVRBxDIjFRp6MDn_dFfNqgIs-JWIoIdzJ95JUpg2MmTF7x8lK0eewsRafvsedIEXV/s1600/Sunny%20Sanskari%20Ki%20Tulsi%20Kumari%20%5BHindi%5D%5BCAM%5D.png" style="display: block; padding: 1em 0; text-align: center; "><img alt="" border="0" data-original-height="320" data-original-width="640" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjw-qb63Nx8lsq3_d8kf7Mgf8dwbct3BfNpqV6Nv2YlWnmE7LiPF2tfzDWPlDP4wSXDbl0aDKUQ-jcmXKbRmXRpUeTdQUqpAyx2t0W4r5-M4ToXpe5nUDoUgMvtoqIxVRBxDIjFRp6MDn_dFfNqgIs-JWIoIdzJ95JUpg2MmTF7x8lK0eewsRafvsedIEXV/s1600/Sunny%20Sanskari%20Ki%20Tulsi%20Kumari%20%5BHindi%5D%5BCAM%5D.png"/></a></div>
-  
-  <h2 style="text-align: center;"><span style="background-color: white; color: red; font-size: x-large;">DOWNLOAD LINK&nbsp;</span></h2>
 
-  <!--Shared By-->
-  <p style="color: #555555; font-style: italic; margin-top: 10px;">Shared By <strong>Movie Box</strong></p>
-  
+  <!-- Screenshot Heading -->
+  <h2><span style="color: red; font-size: xx-large;">SCREENSHOT</span></h2>
+
+  <!-- Watch Online / Join Channel Button -->
+  <div class="watch-online-button">
+    <a onclick="multiRedirect('https://t.me/movieboxbd01')" class="watch-button">JOIN CHANNEL</a>
+  </div>
+
+  <!-- Movie Poster -->
+  <div class="separator">
+    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjw-qb63Nx8lsq3_d8kf7Mgf8dwbct3BfNpqV6Nv2YlWnmE7LiPF2tfzDWPlDP4wSXDbl0aDKUQ-jcmXKbRmXRpUeTdQUqpAyx2t0W4r5-M4ToXpe5nUDoUgMvtoqIxVRBxDIjFRp6MDn_dFfNqgIs-JWIoIdzJ95JUpg2MmTF7x8lK0eewsRafvsedIEXV/s1600/Sunny%20Sanskari%20Ki%20Tulsi%20Kumari%20%5BHindi%5D%5BCAM%5D.png">
+      <img class="poster" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjw-qb63Nx8lsq3_d8kf7Mgf8dwbct3BfNpqV6Nv2YlWnmE7LiPF2tfzDWPlDP4wSXDbl0aDKUQ-jcmXKbRmXRpUeTdQUqpAyx2t0W4r5-M4ToXpe5nUDoUgMvtoqIxVRBxDIjFRp6MDn_dFfNqgIs-JWIoIdzJ95JUpg2MmTF7x8lK0eewsRafvsedIEXV/s1600/Sunny%20Sanskari%20Ki%20Tulsi%20Kumari%20%5BHindi%5D%5BCAM%5D.png" alt="Movie Poster">
+    </a>
+  </div>
+
+  <!-- Download Heading -->
+  <h2><span style="background-color: white; color: red; font-size: x-large;">DOWNLOAD LINK👇</span></h2>
+
+  <!-- Shared By -->
+  <p style="color: #555555; font-style: italic;">Shared By <strong>Movie Box</strong></p>
+
   <!-- JavaScript for Redirect -->
   <script>
     function multiRedirect(mainLink) {
@@ -125,15 +154,5 @@
       window.location.href = mainLink;
     }
   </script>
-
 </body>
 </html>
-</div><br />&nbsp;<p></p>
-
-
-
-
-
-
-
-
