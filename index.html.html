@@ -1,8 +1,8 @@
-
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"></meta>
-  <meta content="width=device-width,initial-scale=1" name="viewport"></meta>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Live Matches - Landing</title>
   <style>
     :root{--bg:#0f1724;--card:#14202b;--accent:#00b4d8;--muted:#94a3b8;--live:#ff3b3b}
@@ -58,6 +58,12 @@
   <script>
     // ====== SAMPLE MATCH DATA ======
     // Edit these objects to add your matches. Use ISO 8601 for startTime (UTC or local as you wish).
+    function addMinutesFromNow(min){
+      const d = new Date();
+      d.setMinutes(d.getMinutes() + min);
+      return d.toISOString();
+    }
+
     const matches = [
       {
         id: 'm1',
@@ -90,20 +96,16 @@
         detailsLink: '#details-m3'
       },
       {
-        id: 'm2',
-        home: 'Al-Qadsiah',
-        away: 'Al-Kholood',
-        homeLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Al_Qadsiah_FC_logo.png/120px-Al_Qadsiah_FC_logo.png',
-        awayLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Al-Kholood_Club.png/120px-Al-Kholood_Club.png',
-        startTime: addMinutesFromNow(60), // 1 hour from now
-        watchLink: '#watch-m2',
-        detailsLink: '#details-m2'
+        id: 'm4',
+        home: 'Al-Nassr',
+        away: 'Al-Hilal',
+        homeLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4a/Al_Nassr_Logo.png/120px-Al_Nassr_Logo.png',
+        awayLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7d/Al-Hilal_FC_logo.png/120px-Al-Hilal_FC_logo.png',
+        startTime: addMinutesFromNow(180), // 3 hours from now
+        watchLink: '#watch-m4',
+        detailsLink: '#details-m4'
       }
     ];
-
-    function addMinutesFromNow(min){
-      const d = new Date(); d.setMinutes(d.getMinutes()+min); return d.toISOString();
-    }
 
     // ====== RUNTIME LOGIC ======
     const MATCH_END_AFTER_MIN = 150; // 2.5 hours -> 150 minutes after start
@@ -111,8 +113,13 @@
 
     function render(){
       listEl.innerHTML = '';
-      matches.forEach(m => {
-        const card = document.createElement('div'); card.className='card'; card.dataset.id = m.id;
+      matches.forEach((m, i) => {
+        // ensure a unique uid for DOM ids (avoids duplicate id problems)
+        m._uid = m.id + '-' + i;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.uid = m._uid;
 
         const left = document.createElement('div'); left.className='leftlogo';
         const limg = document.createElement('img'); limg.src = m.homeLogo; limg.alt = m.home; left.appendChild(limg);
@@ -130,8 +137,10 @@
         teams.appendChild(t1); teams.appendChild(vs); teams.appendChild(t2);
 
         const timeBox = document.createElement('div'); timeBox.className='timeBox';
-        const countdown = document.createElement('div'); countdown.className='countdown'; countdown.id = 'cd-'+m.id; countdown.textContent = '--:--:--';
-        const mut = document.createElement('div'); mut.className='muted'; mut.id = 'mut-'+m.id; mut.textContent = new Date(m.startTime).toLocaleString();
+        const countdown = document.createElement('div'); countdown.className='countdown';
+        countdown.id = 'cd-' + m._uid; countdown.textContent = '--:--:--';
+        const mut = document.createElement('div'); mut.className='muted';
+        mut.id = 'mut-' + m._uid; mut.textContent = new Date(m.startTime).toLocaleString();
         timeBox.appendChild(countdown); timeBox.appendChild(mut);
 
         meta.appendChild(teams); meta.appendChild(timeBox);
@@ -174,19 +183,19 @@
 
       // per-second update
       setInterval(()=>{
+        const now = new Date();
         matches.forEach(m=>{
           const status = getStatus(m);
-          const cdEl = document.getElementById('cd-'+m.id);
-          const mut = document.getElementById('mut-'+m.id);
+          const cdEl = document.getElementById('cd-'+m._uid);
+          const mut = document.getElementById('mut-'+m._uid);
           if(!cdEl) return;
 
           if(status==='upcoming'){
-            const now = new Date();
             const start = new Date(m.startTime);
             const diff = start - now;
-            if(diff<=0){
+            if(diff <= 0){
               // became live
-              setToLive(m.id);
+              setToLive(m._uid);
             } else {
               cdEl.textContent = formatTime(diff);
               mut.textContent = 'Starts: '+start.toLocaleString();
@@ -206,35 +215,38 @@
     }
 
     function formatTime(ms){
-      if(ms<0) ms=0;
-      const s = Math.floor(ms/1000)%60; const m = Math.floor(ms/60000)%60; const h = Math.floor(ms/3600000);
+      if(ms < 0) ms = 0;
+      const s = Math.floor(ms/1000)%60;
+      const m = Math.floor(ms/60000)%60;
+      const h = Math.floor(ms/3600000);
       return pad(h)+':'+pad(m)+':'+pad(s);
     }
     function pad(n){return n.toString().padStart(2,'0')}
 
-    function setToLive(id){
-      // set element to live immediately
-      const cdEl = document.getElementById('cd-'+id);
+    function setToLive(uid){
+      const cdEl = document.getElementById('cd-'+uid);
       if(cdEl) cdEl.innerHTML = '<span class="liveBadge">LIVE</span>';
-      const m = matches.find(x=>x.id===id);
-      if(m) scheduleEnd(m);
+      const match = matches.find(x=>x._uid === uid);
+      if(match) scheduleEnd(match);
       updateCounts();
     }
 
     function scheduleEnd(match){
       // place a data attribute so we don't schedule multiple timers for same match
-      if(match._endScheduled) return; match._endScheduled = true;
+      if(match._endScheduled) return;
+      match._endScheduled = true;
       const start = new Date(match.startTime);
       const endTime = new Date(start.getTime() + MATCH_END_AFTER_MIN*60000);
       const now = new Date();
       const ms = endTime - now;
-      if(ms<=0){
-        // already ended
-        const cdEl = document.getElementById('cd-'+match.id); if(cdEl) cdEl.textContent='Match Ended';
+      const cdEl = document.getElementById('cd-'+match._uid);
+      if(ms <= 0){
+        if(cdEl) cdEl.textContent = 'Match Ended';
+        updateCounts();
         return;
       }
       setTimeout(()=>{
-        const cdEl = document.getElementById('cd-'+match.id); if(cdEl) cdEl.textContent='Match Ended';
+        if(cdEl) cdEl.textContent = 'Match Ended';
         updateCounts();
       }, ms);
     }
@@ -250,7 +262,9 @@
 
     function applyFilter(filter){
       document.querySelectorAll('.card').forEach(c=>{
-        const id = c.dataset.id; const m = matches.find(x=>x.id===id); const status = getStatus(m);
+        const uid = c.dataset.uid;
+        const m = matches.find(x=>x._uid === uid);
+        const status = getStatus(m);
         if(filter==='all') c.style.display = '';
         else if(filter==='live') c.style.display = (status==='live')? '': 'none';
         else if(filter==='upcoming') c.style.display = (status==='upcoming')? '': 'none';
@@ -261,7 +275,10 @@
     startTimers();
 
     // HELPER: you can programmatically add a match using addMatch({..})
-    function addMatch(obj){ matches.push(obj); render(); }
+    function addMatch(obj){
+      matches.push(obj);
+      render();
+    }
 
     // Expose addMatch to window so you can add from console. Also expose matches for editing logos/links.
     window.matches = matches; window.addMatch = addMatch;
