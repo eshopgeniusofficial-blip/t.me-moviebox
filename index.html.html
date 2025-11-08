@@ -13,9 +13,7 @@
     padding: 20px;
   }
 
-  h2 { text-align: center; margin-bottom: 10px; }
-
-  .filters {
+  .filters, .sport-filters {
     text-align: center;
     margin-bottom: 20px;
   }
@@ -147,8 +145,14 @@
 </head>
 <body>
 
-<h2>⚽ Live Football Fixtures</h2>
+<!-- Sport Filters -->
+<div class="sport-filters">
+  <button class="filter-btn active" data-sport="all">All Sports</button>
+  <button class="filter-btn" data-sport="football">Football</button>
+  <button class="filter-btn" data-sport="cricket">Cricket</button>
+</div>
 
+<!-- Match Type Filters -->
 <div class="filters">
   <button class="filter-btn active" data-filter="all">All</button>
   <button class="filter-btn" data-filter="live">Live</button>
@@ -156,8 +160,8 @@
 </div>
 
 <div id="match-container">
-  <!-- MATCH 1 -->
-  <div class="match-card" data-start="2025-11-09T02:00:00">
+  <!-- FOOTBALL MATCH -->
+  <div class="match-card" data-start="2025-11-09T02:00:00" data-sport="football">
     <div class="league-badge">UEFA Champions League</div>
     <div class="teams">
       <div class="team">
@@ -177,27 +181,26 @@
     </div>
   </div>
 
-  <!-- MATCH 2 -->
-  <div class="match-card" data-start="2025-11-09T04:00:00">
-    <div class="league-badge">UEFA Champions League</div>
+  <!-- CRICKET MATCH -->
+  <div class="match-card" data-start="2025-11-09T05:00:00" data-sport="cricket">
+    <div class="league-badge">IPL 2025</div>
     <div class="teams">
       <div class="team">
-        <img src="https://upload.wikimedia.org/wikipedia/en/1/15/FC_Barcelona.svg" alt="Barcelona">
-        <div>Barcelona</div>
+        <img src="https://upload.wikimedia.org/wikipedia/en/5/5b/Chennai_Super_Kings_logo.svg" alt="Chennai Super Kings">
+        <div>CSK</div>
       </div>
       <div class="vs">VS</div>
       <div class="team">
-        <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Bayern_Munich_logo.svg" alt="Bayern Munich">
-        <div>Bayern Munich</div>
+        <img src="https://upload.wikimedia.org/wikipedia/en/3/30/Mumbai_Indians_Logo.svg" alt="Mumbai Indians">
+        <div>MI</div>
         <span class="live-badge">LIVE 🔴</span>
       </div>
     </div>
-    <div class="time">⏰ Match Time: 2025-11-09T04:00:00</div>
+    <div class="time">⏰ Match Time: 2025-11-09T05:00:00</div>
     <div class="watch-btn">
-      <span class="countdown" data-start="2025-11-09T04:00:00" data-link="https://yourlink.com"></span>
+      <span class="countdown" data-start="2025-11-09T05:00:00" data-link="https://yourlink.com"></span>
     </div>
   </div>
-
 </div>
 
 <script>
@@ -214,9 +217,7 @@ function updateCountdowns() {
     const distance = startTime - now;
 
     if(distance <= 0){
-      // Show Watch Now button
       countdownEl.outerHTML = `<a href="${link}" target="_blank">▶ Watch Now</a>`;
-      // Show LIVE badge
       liveBadge.style.display = 'inline-block';
       match.dataset.status = 'live';
     } else {
@@ -230,32 +231,51 @@ function updateCountdowns() {
   });
 }
 
-// Filter Buttons
-const filterBtns = document.querySelectorAll('.filter-btn');
-filterBtns.forEach(btn => {
+// Match Type Filters
+const typeFilterBtns = document.querySelectorAll('.filters .filter-btn');
+typeFilterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
+    typeFilterBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    const matches = document.querySelectorAll('.match-card');
-    matches.forEach(match => {
-      if(filter === 'all'){
-        match.style.display = 'block';
-      } else if(filter === 'live' && match.dataset.status === 'live'){
-        match.style.display = 'block';
-      } else if(filter === 'upcoming' && match.dataset.status === 'upcoming'){
-        match.style.display = 'block';
-      } else {
-        match.style.display = 'none';
-      }
-    });
+    filterMatches();
   });
 });
 
+// Sport Filters
+const sportFilterBtns = document.querySelectorAll('.sport-filters .filter-btn');
+sportFilterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    sportFilterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterMatches();
+  });
+});
+
+function filterMatches() {
+  const activeType = document.querySelector('.filters .filter-btn.active').dataset.filter;
+  const activeSport = document.querySelector('.sport-filters .filter-btn.active').dataset.sport;
+  const matches = document.querySelectorAll('.match-card');
+
+  matches.forEach(match => {
+    const status = match.dataset.status;
+    const sport = match.dataset.sport;
+
+    let typeShow = false;
+    if(activeType === 'all') typeShow = true;
+    else if(activeType === 'live' && status === 'live') typeShow = true;
+    else if(activeType === 'upcoming' && status === 'upcoming') typeShow = true;
+
+    let sportShow = false;
+    if(activeSport === 'all') sportShow = true;
+    else if(activeSport === sport) sportShow = true;
+
+    match.style.display = (typeShow && sportShow) ? 'block' : 'none';
+  });
+}
+
 setInterval(() => {
   updateCountdowns();
-  // Trigger filter again to update visibility
-  document.querySelector('.filter-btn.active').click();
+  filterMatches();
 }, 1000);
 
 updateCountdowns();
