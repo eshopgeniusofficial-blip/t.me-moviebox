@@ -1,299 +1,240 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Live Matches - Landing</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Live Match Landing Page</title>
   <style>
-    :root{--bg:#0f1724;--card:#14202b;--accent:#00b4d8;--muted:#94a3b8;--live:#ff3b3b}
-    *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    body{margin:0;background:linear-gradient(180deg,#071021 0%, #0b1726 100%);color:#e6eef6;padding:20px}
+    /* ======== BASE STYLE ======== */
+    body {
+      background: #0f1724;
+      color: #e6eef6;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 15px;
+    }
 
-    .topbar{display:flex;gap:12px;align-items:center;margin-bottom:18px}
-    .tabs{display:flex;gap:8px}
-    .tab{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 14px;border-radius:999px;cursor:pointer;color:var(--muted)}
-    .tab.active{background:linear-gradient(90deg,#092634,#0d3142);border:1px solid rgba(0,180,216,0.12);color:#dff6fb;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+    /* ======== TAB BUTTONS ======== */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    .tab {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      background: #14202b;
+      color: #94a3b8;
+      transition: all 0.2s ease;
+      font-size: 14px;
+    }
+    .tab:hover {
+      background: #1e2c3b;
+    }
+    .tab.active {
+      background: #00b4d8;
+      color: #fff;
+    }
 
-    .container{max-width:820px;margin:0 auto}
-    .list{display:flex;flex-direction:column;gap:12px}
+    /* ======== MATCH LIST ======== */
+    .match-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 95%;
+      max-width: 650px;
+      margin: auto;
+    }
 
-    .card{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03)}
-    .leftlogo,.rightlogo{width:60px;height:60px;border-radius:8px;overflow:hidden;background:#0b1220;display:flex;align-items:center;justify-content:center}
-    .leftlogo img,.rightlogo img{max-width:100%;max-height:100%;display:block}
+    .match {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 12px;
+      border-radius: 12px;
+      background: #14202b;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
 
-    .center{flex:1;display:flex;flex-direction:column;gap:6px}
-    .meta{display:flex;justify-content:space-between;align-items:center}
-    .teams{display:flex;gap:8px;align-items:center}
-    .teamName{font-weight:600}
-    .versus{color:var(--muted);margin:0 8px}
+    .team {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 120px;
+    }
 
-    .links{display:flex;gap:8px}
-    .linkbtn{padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.03);cursor:pointer;color:#cfeefc;text-decoration:none;font-size:13px}
+    .team img {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
 
-    .timeBox{min-width:120px;text-align:center}
-    .countdown{font-weight:700}
-    .liveBadge{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--live);color:#fff;font-weight:700;animation:pop 0.6s infinite ease-in-out}
+    .countdown {
+      font-weight: bold;
+      text-align: center;
+      min-width: 90px;
+    }
 
-    @keyframes pop{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+    .live {
+      color: #ff3b3b;
+      font-weight: bold;
+      animation: blink 1s infinite;
+    }
 
-    .muted{color:var(--muted);font-size:13px}
+    @keyframes blink {
+      50% { opacity: 0.3; }
+    }
 
-    /* small */
-    @media(max-width:680px){.card{flex-direction:column;align-items:flex-start}.timeBox{width:100%;display:flex;justify-content:space-between}}
+    /* ======== RESPONSIVE DESIGN ======== */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .match {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .team img {
+        width: 40px;
+        height: 40px;
+      }
+      .team span {
+        font-size: 14px;
+      }
+      .tab {
+        padding: 6px 12px;
+        font-size: 13px;
+      }
+      .countdown {
+        margin-top: 6px;
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="topbar">
-      <div class="tabs">
-        <button class="tab active" data-filter="all">All (<span id="countAll">0</span>)</button>
-        <button class="tab" data-filter="live">Live (<span id="countLive">0</span>)</button>
-        <button class="tab" data-filter="upcoming">Upcoming (<span id="countUpcoming">0</span>)</button>
-      </div>
-    </div>
-
-    <div class="list" id="matchList"></div>
+  <div class="tabs">
+    <button class="tab active" data-filter="all">All (<span id="countAll">0</span>)</button>
+    <button class="tab" data-filter="live">Live (<span id="countLive">0</span>)</button>
+    <button class="tab" data-filter="upcoming">Upcoming (<span id="countUpcoming">0</span>)</button>
   </div>
 
-  <script>
-    // ====== SAMPLE MATCH DATA ======
-    // Edit these objects to add your matches. Use ISO 8601 for startTime (UTC or local as you wish).
-    function addMinutesFromNow(min){
-      const d = new Date();
-      d.setMinutes(d.getMinutes() + min);
-      return d.toISOString();
-    }
+  <div class="match-list" id="matches"></div>
 
+  <script>
+    // === প্রতিদিন শুধু নিচের তালিকাটা আপডেট করলেই চলবে ===
     const matches = [
       {
-        id: 'm1',
         home: 'Al-Hazem',
         away: 'Al-Khaleej',
         homeLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/68/Al-Hazm_Logo.png/120px-Al-Hazm_Logo.png',
         awayLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/8/8b/Al-Khaleej_Club.png/120px-Al-Khaleej_Club.png',
-        startTime: addMinutesFromNow(10), // scheduled 10 minutes from now
-        watchLink: '#watch-m1',
-        detailsLink: '#details-m1'
+        start: addMin(10)
       },
       {
-        id: 'm2',
         home: 'Al-Qadsiah',
         away: 'Al-Kholood',
         homeLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Al_Qadsiah_FC_logo.png/120px-Al_Qadsiah_FC_logo.png',
         awayLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Al-Kholood_Club.png/120px-Al-Kholood_Club.png',
-        startTime: addMinutesFromNow(60), // 1 hour from now
-        watchLink: '#watch-m2',
-        detailsLink: '#details-m2'
+        start: addMin(60)
       },
       {
-        id: 'm3',
         home: 'Al-Riyadh',
         away: 'Damac FC',
-        homeLogo: 'https://blogger.googleusercontent.com/img/a/AVvXsEjRI8qpFWF5El2zHnav9Ezv5h9vYNfbwArfp-siKwD8BNyN_X6F3ZMUXPtCjvKq2Cqdw3lLndxOZN9v82Sn9ed3CSt5-szQbmWLBtNh0jkW1K9lvDXGL4rjbCg8BUa4gWmIxTAnM8ceiw6U84UFIAN7Ubo9HaoGIbjNLUNRMaZnJRWYV75U2L8e-wzlYXXw',
+        homeLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/0/0a/Al-Riyadh_SC.png/120px-Al-Riyadh_SC.png',
         awayLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/2/22/Damac_FC_logo.png/120px-Damac_FC_logo.png',
-        startTime: addMinutesFromNow(-5), // already started 5 minutes ago => should be live
-        watchLink: '#watch-m3',
-        detailsLink: '#details-m3'
-      },
-            {
-        id: 'm4',
-        home: 'Al-Nassr',
-        away: 'Al-Hilal',
-        homeLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4a/Al_Nassr_Logo.png/120px-Al_Nassr_Logo.png',
-        awayLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7d/Al-Hilal_FC_logo.png/120px-Al-Hilal_FC_logo.png',
-        startTime: addMinutesFromNow(3), // 3 minitue from now
-        watchLink: '#watch-m4',
-        detailsLink: '#details-m4'
-      },
-      {
-        id: 'm4',
-        home: 'Al-Nassr',
-        away: 'Al-Hilal',
-        homeLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4a/Al_Nassr_Logo.png/120px-Al_Nassr_Logo.png',
-        awayLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7d/Al-Hilal_FC_logo.png/120px-Al-Hilal_FC_logo.png',
-        startTime: addMinutesFromNow(180), // 3 hours from now
-        watchLink: '#watch-m4',
-        detailsLink: '#details-m4'
+        start: addMin(-5)
       }
     ];
 
-    // ====== RUNTIME LOGIC ======
-    const MATCH_END_AFTER_MIN = 150; // 2.5 hours -> 150 minutes after start
-    const listEl = document.getElementById('matchList');
+    function addMin(min) {
+      let d = new Date();
+      d.setMinutes(d.getMinutes() + min);
+      return d;
+    }
 
-    function render(){
-      listEl.innerHTML = '';
+    const END_TIME = 150 * 60 * 1000; // 2.5 ঘণ্টা
+    const matchList = document.getElementById('matches');
+
+    function render() {
+      matchList.innerHTML = '';
       matches.forEach((m, i) => {
-        // ensure a unique uid for DOM ids (avoids duplicate id problems)
-        m._uid = m.id + '-' + i;
-
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.dataset.uid = m._uid;
-
-        const left = document.createElement('div'); left.className='leftlogo';
-        const limg = document.createElement('img'); limg.src = m.homeLogo; limg.alt = m.home; left.appendChild(limg);
-
-        const right = document.createElement('div'); right.className='rightlogo';
-        const rimg = document.createElement('img'); rimg.src = m.awayLogo; rimg.alt = m.away; right.appendChild(rimg);
-
-        const center = document.createElement('div'); center.className='center';
-        const meta = document.createElement('div'); meta.className='meta';
-
-        const teams = document.createElement('div'); teams.className='teams';
-        const t1 = document.createElement('div'); t1.innerHTML=`<div class="teamName">${m.home}</div>`;
-        const vs = document.createElement('div'); vs.className='versus'; vs.textContent='VS';
-        const t2 = document.createElement('div'); t2.innerHTML=`<div class="teamName">${m.away}</div>`;
-        teams.appendChild(t1); teams.appendChild(vs); teams.appendChild(t2);
-
-        const timeBox = document.createElement('div'); timeBox.className='timeBox';
-        const countdown = document.createElement('div'); countdown.className='countdown';
-        countdown.id = 'cd-' + m._uid; countdown.textContent = '--:--:--';
-        const mut = document.createElement('div'); mut.className='muted';
-        mut.id = 'mut-' + m._uid; mut.textContent = new Date(m.startTime).toLocaleString();
-        timeBox.appendChild(countdown); timeBox.appendChild(mut);
-
-        meta.appendChild(teams); meta.appendChild(timeBox);
-
-        const links = document.createElement('div'); links.className='links';
-        const watch = document.createElement('a'); watch.className='linkbtn'; watch.href = m.watchLink; watch.textContent='Watch';
-        const details = document.createElement('a'); details.className='linkbtn'; details.href = m.detailsLink; details.textContent='Details';
-        links.appendChild(watch); links.appendChild(details);
-
-        center.appendChild(meta); center.appendChild(links);
-
-        card.appendChild(left); card.appendChild(center); card.appendChild(right);
-        listEl.appendChild(card);
+        const div = document.createElement('div');
+        div.className = 'match';
+        div.dataset.index = i;
+        div.innerHTML = `
+          <div class='team'><img src='${m.homeLogo}'><span>${m.home}</span></div>
+          <span>VS</span>
+          <div class='team'><img src='${m.awayLogo}'><span>${m.away}</span></div>
+          <div class='countdown' id='cd${i}'>--:--:--</div>
+        `;
+        matchList.appendChild(div);
       });
-
-      updateCounts();
+      updateCount();
     }
 
-    function updateCounts(){
-      const total = matches.length;
-      const live = matches.filter(s=>getStatus(s)==='live').length;
-      const upcoming = matches.filter(s=>getStatus(s)==='upcoming').length;
-      document.getElementById('countAll').textContent = total;
-      document.getElementById('countLive').textContent = live;
-      document.getElementById('countUpcoming').textContent = upcoming;
-    }
-
-    function getStatus(match){
+    function updateCount() {
       const now = new Date();
-      const start = new Date(match.startTime);
-      const end = new Date(start.getTime() + MATCH_END_AFTER_MIN*60000);
-      if(now >= end) return 'ended';
-      if(now >= start) return 'live';
-      return 'upcoming';
+      document.getElementById('countAll').textContent = matches.length;
+      document.getElementById('countLive').textContent = matches.filter(m => now >= m.start && now < m.start.getTime() + END_TIME).length;
+      document.getElementById('countUpcoming').textContent = matches.filter(m => now < m.start).length;
     }
 
-    function startTimers(){
-      // initial render
-      render();
-
-      // per-second update
-      setInterval(()=>{
-        const now = new Date();
-        matches.forEach(m=>{
-          const status = getStatus(m);
-          const cdEl = document.getElementById('cd-'+m._uid);
-          const mut = document.getElementById('mut-'+m._uid);
-          if(!cdEl) return;
-
-          if(status==='upcoming'){
-            const start = new Date(m.startTime);
-            const diff = start - now;
-            if(diff <= 0){
-              // became live
-              setToLive(m._uid);
-            } else {
-              cdEl.textContent = formatTime(diff);
-              mut.textContent = 'Starts: '+start.toLocaleString();
-            }
-          } else if(status==='live'){
-            cdEl.innerHTML = '<span class="liveBadge">LIVE</span>';
-            mut.textContent = 'Started: '+new Date(m.startTime).toLocaleString();
-            // schedule end reminder if not already scheduled
-            scheduleEnd(m);
-          } else {
-            cdEl.textContent = 'Match Ended';
-            mut.textContent = '';
-          }
-        });
-        updateCounts();
-      },1000);
-    }
-
-    function formatTime(ms){
-      if(ms < 0) ms = 0;
-      const s = Math.floor(ms/1000)%60;
-      const m = Math.floor(ms/60000)%60;
-      const h = Math.floor(ms/3600000);
-      return pad(h)+':'+pad(m)+':'+pad(s);
-    }
-    function pad(n){return n.toString().padStart(2,'0')}
-
-    function setToLive(uid){
-      const cdEl = document.getElementById('cd-'+uid);
-      if(cdEl) cdEl.innerHTML = '<span class="liveBadge">LIVE</span>';
-      const match = matches.find(x=>x._uid === uid);
-      if(match) scheduleEnd(match);
-      updateCounts();
-    }
-
-    function scheduleEnd(match){
-      // place a data attribute so we don't schedule multiple timers for same match
-      if(match._endScheduled) return;
-      match._endScheduled = true;
-      const start = new Date(match.startTime);
-      const endTime = new Date(start.getTime() + MATCH_END_AFTER_MIN*60000);
+    function tick() {
       const now = new Date();
-      const ms = endTime - now;
-      const cdEl = document.getElementById('cd-'+match._uid);
-      if(ms <= 0){
-        if(cdEl) cdEl.textContent = 'Match Ended';
-        updateCounts();
-        return;
-      }
-      setTimeout(()=>{
-        if(cdEl) cdEl.textContent = 'Match Ended';
-        updateCounts();
-      }, ms);
+      matches.forEach((m, i) => {
+        const cd = document.getElementById('cd' + i);
+        if (now < m.start) {
+          const diff = m.start - now;
+          cd.textContent = format(diff);
+        } else if (now < m.start.getTime() + END_TIME) {
+          cd.innerHTML = '<span class="live">LIVE</span>';
+        } else {
+          cd.textContent = 'Match Ended';
+        }
+      });
+      updateCount();
     }
 
-    // FILTERS
-    document.querySelectorAll('.tab').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    function format(ms) {
+      const h = Math.floor(ms / 3600000),
+            m = Math.floor((ms % 3600000) / 60000),
+            s = Math.floor((ms % 60000) / 1000);
+      return `${pad(h)}:${pad(m)}:${pad(s)}`;
+    }
+
+    function pad(n) {
+      return n.toString().padStart(2, '0');
+    }
+
+    render();
+    setInterval(tick, 1000);
+
+    document.querySelectorAll('.tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        applyFilter(btn.dataset.filter);
+        const f = btn.dataset.filter;
+        document.querySelectorAll('.match').forEach((m, i) => {
+          const status = getStatus(matches[i]);
+          m.style.display = (f === 'all' || status === f) ? 'flex' : 'none';
+        });
       });
     });
 
-    function applyFilter(filter){
-      document.querySelectorAll('.card').forEach(c=>{
-        const uid = c.dataset.uid;
-        const m = matches.find(x=>x._uid === uid);
-        const status = getStatus(m);
-        if(filter==='all') c.style.display = '';
-        else if(filter==='live') c.style.display = (status==='live')? '': 'none';
-        else if(filter==='upcoming') c.style.display = (status==='upcoming')? '': 'none';
-      });
+    function getStatus(m) {
+      const now = new Date();
+      if (now < m.start) return 'upcoming';
+      if (now < m.start.getTime() + END_TIME) return 'live';
+      return 'ended';
     }
-
-    // initialize
-    startTimers();
-
-    // HELPER: you can programmatically add a match using addMatch({..})
-    function addMatch(obj){
-      matches.push(obj);
-      render();
-    }
-
-    // Expose addMatch to window so you can add from console. Also expose matches for editing logos/links.
-    window.matches = matches; window.addMatch = addMatch;
   </script>
 </body>
 </html>
-
-
