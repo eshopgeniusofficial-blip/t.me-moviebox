@@ -23,10 +23,19 @@
     gap: 10px;
     box-shadow: 0 0 10px rgba(255,255,255,0.1);
     transition: 0.3s;
+    position: relative;
   }
 
-  .match-card:hover {
-    transform: scale(1.02);
+  .league-badge {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background: #facc15;
+    color: #0f172a;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 12px;
   }
 
   .teams {
@@ -121,8 +130,9 @@
 
 <h2 style="text-align:center;margin-bottom:20px;">⚽ Live Football Fixtures</h2>
 
-<!-- 🟢 MATCH 1 -->
+<!-- MATCH 1 -->
 <div class="match-card">
+  <div class="league-badge">UEFA Champions League</div>
   <div class="teams">
     <div class="team">
       <img src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg" alt="Real Madrid">
@@ -135,14 +145,15 @@
       <span class="live-badge">LIVE 🔴</span>
     </div>
   </div>
-  <div class="time">⏰ Match Time: 2025-11-08T19:55:00</div>
+  <div class="time">⏰ Match Time: 2025-11-09T02:00:00</div>
   <div class="watch-btn">
-    <span class="countdown" data-start="2025-11-08T19:55:00" data-link="https://yourlink.com"></span>
+    <span class="countdown" data-start="2025-11-09T02:00:00" data-link="https://yourlink.com"></span>
   </div>
 </div>
 
-<!-- 🟡 MATCH 2 -->
+<!-- MATCH 2 -->
 <div class="match-card">
+  <div class="league-badge">UEFA Champions League</div>
   <div class="teams">
     <div class="team">
       <img src="https://upload.wikimedia.org/wikipedia/en/1/15/FC_Barcelona.svg" alt="Barcelona">
@@ -195,8 +206,3 @@ updateCountdowns();
 
 </body>
 </html>
-
-
-
-
-
