@@ -79,6 +79,15 @@
     background: #16a34a;
   }
 
+  .countdown {
+    background: #334155;
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-weight: 600;
+    color: #facc15;
+  }
+
   @media (max-width: 600px) {
     .team img {
       width: 40px;
@@ -107,9 +116,9 @@
       <div>Liverpool</div>
     </div>
   </div>
-  <div class="time">⏰ Match Time: 2:00 AM (GMT)</div>
+  <div class="time">⏰ Match Time: 2025-11-09T02:00:00</div>
   <div class="watch-btn">
-    <a href="https://yourlink.com">▶ Watch Now</a>
+    <span class="countdown" data-start="2025-11-09T02:00:00" data-link="https://yourlink.com"></span>
   </div>
 </div>
 
@@ -126,11 +135,36 @@
       <div>Bayern Munich</div>
     </div>
   </div>
-  <div class="time">⏰ Match Time: 4:00 AM (GMT)</div>
+  <div class="time">⏰ Match Time: 2025-11-09T04:00:00</div>
   <div class="watch-btn">
-    <a href="https://yourlink.com">▶ Watch Now</a>
+    <span class="countdown" data-start="2025-11-09T04:00:00" data-link="https://yourlink.com"></span>
   </div>
 </div>
+
+<script>
+  function updateCountdowns() {
+    const elements = document.querySelectorAll('.countdown');
+    const now = new Date().getTime();
+
+    elements.forEach(el => {
+      const startTime = new Date(el.dataset.start).getTime();
+      const distance = startTime - now;
+
+      if (distance <= 0) {
+        const link = el.dataset.link;
+        el.outerHTML = `<a href="${link}" target="_blank">▶ Watch Now</a>`;
+      } else {
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        el.textContent = `Starts in ${hours}h ${minutes}m ${seconds}s`;
+      }
+    });
+  }
+
+  setInterval(updateCountdowns, 1000);
+  updateCountdowns();
+</script>
 
 </body>
 </html>
