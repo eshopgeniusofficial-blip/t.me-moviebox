@@ -33,11 +33,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
   }
 
   .team {
     text-align: center;
     width: 45%;
+    position: relative;
   }
 
   .team img {
@@ -65,7 +67,7 @@
     margin-top: 8px;
   }
 
-  .watch-btn a {
+  .watch-btn a, .countdown {
     background: #22c55e;
     color: #fff;
     padding: 8px 18px;
@@ -73,6 +75,7 @@
     text-decoration: none;
     transition: 0.3s;
     font-weight: 600;
+    display: inline-block;
   }
 
   .watch-btn a:hover {
@@ -81,11 +84,26 @@
 
   .countdown {
     background: #334155;
-    display: inline-block;
-    padding: 8px 18px;
-    border-radius: 25px;
-    font-weight: 600;
     color: #facc15;
+  }
+
+  .live-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: red;
+    color: #fff;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 12px;
+    animation: blink 1s infinite;
+    display: none;
+  }
+
+  @keyframes blink {
+    0%,50%,100% {opacity:1;}
+    25%,75% {opacity:0;}
   }
 
   @media (max-width: 600px) {
@@ -114,11 +132,12 @@
     <div class="team">
       <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg" alt="Liverpool">
       <div>Liverpool</div>
+      <span class="live-badge">LIVE 🔴</span>
     </div>
   </div>
-  <div class="time">⏰ Match Time: 2025-11-08T19:47:00</div>
+  <div class="time">⏰ Match Time: 2025-11-09T02:00:00</div>
   <div class="watch-btn">
-    <span class="countdown" data-start="2025-11-08T19:47:00" data-link="https://yourlink.com"></span>
+    <span class="countdown" data-start="2025-11-09T02:00:00" data-link="https://yourlink.com"></span>
   </div>
 </div>
 
@@ -133,6 +152,7 @@
     <div class="team">
       <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Bayern_Munich_logo.svg" alt="Bayern Munich">
       <div>Bayern Munich</div>
+      <span class="live-badge">LIVE 🔴</span>
     </div>
   </div>
   <div class="time">⏰ Match Time: 2025-11-09T04:00:00</div>
@@ -142,30 +162,36 @@
 </div>
 
 <script>
-  function updateCountdowns() {
-    const elements = document.querySelectorAll('.countdown');
-    const now = new Date().getTime();
+function updateCountdowns() {
+  const matches = document.querySelectorAll('.match-card');
+  const now = new Date().getTime();
 
-    elements.forEach(el => {
-      const startTime = new Date(el.dataset.start).getTime();
-      const distance = startTime - now;
+  matches.forEach(match => {
+    const countdownEl = match.querySelector('.countdown');
+    const startTime = new Date(countdownEl.dataset.start).getTime();
+    const link = countdownEl.dataset.link;
+    const liveBadge = match.querySelector('.live-badge');
 
-      if (distance <= 0) {
-        const link = el.dataset.link;
-        el.outerHTML = `<a href="${link}" target="_blank">▶ Watch Now</a>`;
-      } else {
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        el.textContent = `Starts in ${hours}h ${minutes}m ${seconds}s`;
-      }
-    });
-  }
+    const distance = startTime - now;
 
-  setInterval(updateCountdowns, 1000);
-  updateCountdowns();
+    if(distance <= 0){
+      // Show Watch Now button
+      countdownEl.outerHTML = `<a href="${link}" target="_blank">▶ Watch Now</a>`;
+      // Show LIVE badge
+      liveBadge.style.display = 'inline-block';
+    } else {
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownEl.textContent = `Starts in ${hours}h ${minutes}m ${seconds}s`;
+      liveBadge.style.display = 'none';
+    }
+  });
+}
+
+setInterval(updateCountdowns, 1000);
+updateCountdowns();
 </script>
 
 </body>
 </html>
-
