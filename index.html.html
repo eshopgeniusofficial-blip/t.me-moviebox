@@ -1,240 +1,241 @@
 <!doctype html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Live Match Landing Page</title>
-  <style>
-    /* ======== BASE STYLE ======== */
-    body {
-      background: #0f1724;
-      color: #e6eef6;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 15px;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Live Match Landing Page</title>
+<style>
+  body {
+    background: #0f1724;
+    color: #e6eef6;
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
 
-    /* ======== TAB BUTTONS ======== */
-    .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 15px;
-    }
-    .tab {
-      padding: 8px 16px;
-      border-radius: 20px;
-      border: none;
-      cursor: pointer;
-      background: #14202b;
-      color: #94a3b8;
-      transition: all 0.2s ease;
-      font-size: 14px;
-    }
-    .tab:hover {
-      background: #1e2c3b;
-    }
-    .tab.active {
-      background: #00b4d8;
-      color: #fff;
-    }
+  h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+  }
 
-    /* ======== MATCH LIST ======== */
-    .match-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 95%;
-      max-width: 650px;
-      margin: auto;
-    }
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: #14202b;
+    color: #94a3b8;
+    transition: 0.3s;
+  }
+  .tab.active {
+    background: #00b4d8;
+    color: #fff;
+  }
 
-    .match {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      padding: 12px;
-      border-radius: 12px;
-      background: #14202b;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #14202b;
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #1e293b;
+  }
+  th {
+    background: #1e293b;
+    color: #00b4d8;
+    text-transform: uppercase;
+    font-size: 13px;
+  }
+  .league {
+    color: #f87171;
+    font-weight: bold;
+  }
+  .title {
+    color: #e2e8f0;
+    font-weight: bold;
+  }
+  .watch {
+    color: #fff;
+    background: #00b4d8;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: 0.2s;
+    cursor: pointer;
+  }
+  .watch:hover {
+    background: #0284c7;
+  }
+  .live {
+    color: #ff3b3b;
+    font-weight: bold;
+    animation: blink 1s infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0.3; }
+  }
+  .play {
+    background: #16a34a;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+  .ended {
+    background: #64748b;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+  .countdown {
+    color: #f8fafc;
+    font-weight: bold;
+  }
 
-    .team {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 120px;
-    }
-
-    .team img {
-      width: 48px;
-      height: 48px;
-      border-radius: 8px;
-      object-fit: cover;
-    }
-
-    .countdown {
-      font-weight: bold;
-      text-align: center;
-      min-width: 90px;
-    }
-
-    .live {
-      color: #ff3b3b;
-      font-weight: bold;
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      50% { opacity: 0.3; }
-    }
-
-    /* ======== RESPONSIVE DESIGN ======== */
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      .match {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-      .team img {
-        width: 40px;
-        height: 40px;
-      }
-      .team span {
-        font-size: 14px;
-      }
-      .tab {
-        padding: 6px 12px;
-        font-size: 13px;
-      }
-      .countdown {
-        margin-top: 6px;
-        font-size: 14px;
-      }
-    }
-  </style>
+  @media screen and (max-width: 768px) {
+    body { padding: 10px; }
+    table, th, td { font-size: 13px; padding: 8px; }
+    h2 { font-size: 16px; }
+  }
+</style>
 </head>
 <body>
-  <div class="tabs">
-    <button class="tab active" data-filter="all">All (<span id="countAll">0</span>)</button>
-    <button class="tab" data-filter="live">Live (<span id="countLive">0</span>)</button>
-    <button class="tab" data-filter="upcoming">Upcoming (<span id="countUpcoming">0</span>)</button>
-  </div>
 
-  <div class="match-list" id="matches"></div>
+<h2>⚽ Live Football Matches & Upcoming Fixtures</h2>
 
-  <script>
-    // === প্রতিদিন শুধু নিচের তালিকাটা আপডেট করলেই চলবে ===
-    const matches = [
-      {
-        home: 'Al-Hazem',
-        away: 'Al-Khaleej',
-        homeLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/68/Al-Hazm_Logo.png/120px-Al-Hazm_Logo.png',
-        awayLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/8/8b/Al-Khaleej_Club.png/120px-Al-Khaleej_Club.png',
-        start: addMin(10)
-      },
-      {
-        home: 'Al-Qadsiah',
-        away: 'Al-Kholood',
-        homeLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Al_Qadsiah_FC_logo.png/120px-Al_Qadsiah_FC_logo.png',
-        awayLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Al-Kholood_Club.png/120px-Al-Kholood_Club.png',
-        start: addMin(60)
-      },
-      {
-        home: 'Al-Riyadh',
-        away: 'Damac FC',
-        homeLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/0/0a/Al-Riyadh_SC.png/120px-Al-Riyadh_SC.png',
-        awayLogo: 'https://upload.wikimedia.org/wikipedia/en/thumb/2/22/Damac_FC_logo.png/120px-Damac_FC_logo.png',
-        start: addMin(-5)
-      }
-    ];
+<div class="tabs">
+  <button class="tab active" data-filter="all">All (<span id="countAll">0</span>)</button>
+  <button class="tab" data-filter="live">Live (<span id="countLive">0</span>)</button>
+  <button class="tab" data-filter="upcoming">Upcoming (<span id="countUpcoming">0</span>)</button>
+  <button class="tab" data-filter="ended">Ended (<span id="countEnded">0</span>)</button>
+</div>
 
-    function addMin(min) {
-      let d = new Date();
-      d.setMinutes(d.getMinutes() + min);
-      return d;
+<table id="matchTable">
+  <thead>
+    <tr>
+      <th>League</th>
+      <th>Match</th>
+      <th>Kickoff</th>
+      <th>Countdown</th>
+      <th>Link</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- ✅ শুধু নিচের অংশ পরিবর্তন করবে -->
+    <tr>
+      <td class="league">UEFA U19</td>
+      <td class="title">Real Madrid U19 vs Liverpool U19</td>
+      <td>2025-11-04T21:00:00</td>
+      <td class="countdown" data-time="2025-11-04T21:00:00"></td>
+      <td><span class="watch" data-adlink="https://afflink.com/ad" data-match="https://livematch.com/match1">Watch</span></td>
+      <td><span class="play status">PLAY</span></td>
+    </tr>
+    <tr>
+      <td class="league">UEFA 25/26</td>
+      <td class="title">Arsenal vs Slavia Praha</td>
+      <td>2025-11-04T23:45:00</td>
+      <td class="countdown" data-time="2025-11-04T23:45:00"></td>
+      <td><span class="watch" data-adlink="https://afflink.com/ad" data-match="https://livematch.com/match2">Watch</span></td>
+      <td><span class="play status">PLAY</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+function updateCountdowns() {
+  const rows = document.querySelectorAll("#matchTable tbody tr");
+  const now = new Date().getTime();
+  const matchDuration = 2.5 * 60 * 60 * 1000; // 2.5 hours
+
+  let liveCount = 0, upCount = 0, endCount = 0;
+
+  rows.forEach(row => {
+    const countdownEl = row.querySelector(".countdown");
+    const statusEl = row.querySelector(".status");
+    if (!countdownEl || !statusEl) return;
+
+    const matchTime = new Date(countdownEl.dataset.time).getTime();
+    const endTime = matchTime + matchDuration;
+    const distance = matchTime - now;
+    const endDistance = endTime - now;
+
+    if (distance <= 0 && endDistance > 0) {
+      countdownEl.innerHTML = '<span class="live">LIVE</span>';
+      statusEl.textContent = "LIVE";
+      statusEl.className = "status live";
+      liveCount++;
+      row.dataset.status = "live";
+    } else if (endDistance <= 0) {
+      countdownEl.textContent = "Match Ended";
+      statusEl.textContent = "ENDED";
+      statusEl.className = "status ended";
+      endCount++;
+      row.dataset.status = "ended";
+    } else {
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownEl.textContent = `${hours}h ${mins}m ${secs}s`;
+      statusEl.textContent = "UPCOMING";
+      statusEl.className = "status play";
+      upCount++;
+      row.dataset.status = "upcoming";
     }
+  });
 
-    const END_TIME = 150 * 60 * 1000; // 2.5 ঘণ্টা
-    const matchList = document.getElementById('matches');
+  document.getElementById("countAll").textContent = rows.length;
+  document.getElementById("countLive").textContent = liveCount;
+  document.getElementById("countUpcoming").textContent = upCount;
+  document.getElementById("countEnded").textContent = endCount;
+}
 
-    function render() {
-      matchList.innerHTML = '';
-      matches.forEach((m, i) => {
-        const div = document.createElement('div');
-        div.className = 'match';
-        div.dataset.index = i;
-        div.innerHTML = `
-          <div class='team'><img src='${m.homeLogo}'><span>${m.home}</span></div>
-          <span>VS</span>
-          <div class='team'><img src='${m.awayLogo}'><span>${m.away}</span></div>
-          <div class='countdown' id='cd${i}'>--:--:--</div>
-        `;
-        matchList.appendChild(div);
-      });
-      updateCount();
-    }
+setInterval(updateCountdowns, 1000);
+updateCountdowns();
 
-    function updateCount() {
-      const now = new Date();
-      document.getElementById('countAll').textContent = matches.length;
-      document.getElementById('countLive').textContent = matches.filter(m => now >= m.start && now < m.start.getTime() + END_TIME).length;
-      document.getElementById('countUpcoming').textContent = matches.filter(m => now < m.start).length;
-    }
-
-    function tick() {
-      const now = new Date();
-      matches.forEach((m, i) => {
-        const cd = document.getElementById('cd' + i);
-        if (now < m.start) {
-          const diff = m.start - now;
-          cd.textContent = format(diff);
-        } else if (now < m.start.getTime() + END_TIME) {
-          cd.innerHTML = '<span class="live">LIVE</span>';
-        } else {
-          cd.textContent = 'Match Ended';
-        }
-      });
-      updateCount();
-    }
-
-    function format(ms) {
-      const h = Math.floor(ms / 3600000),
-            m = Math.floor((ms % 3600000) / 60000),
-            s = Math.floor((ms % 60000) / 1000);
-      return `${pad(h)}:${pad(m)}:${pad(s)}`;
-    }
-
-    function pad(n) {
-      return n.toString().padStart(2, '0');
-    }
-
-    render();
-    setInterval(tick, 1000);
-
-    document.querySelectorAll('.tab').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const f = btn.dataset.filter;
-        document.querySelectorAll('.match').forEach((m, i) => {
-          const status = getStatus(matches[i]);
-          m.style.display = (f === 'all' || status === f) ? 'flex' : 'none';
-        });
-      });
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const f = btn.dataset.filter;
+    document.querySelectorAll("#matchTable tbody tr").forEach(row => {
+      if (f === "all" || row.dataset.status === f) row.style.display = "";
+      else row.style.display = "none";
     });
+  });
+});
 
-    function getStatus(m) {
-      const now = new Date();
-      if (now < m.start) return 'upcoming';
-      if (now < m.start.getTime() + END_TIME) return 'live';
-      return 'ended';
+document.querySelectorAll(".watch").forEach(btn => {
+  btn.addEventListener("click", function() {
+    const adLink = this.dataset.adlink;
+    const matchLink = this.dataset.match;
+    if (adLink && matchLink) {
+      window.open(adLink, "_blank");
+      window.location.href = matchLink;
     }
-  </script>
+  });
+});
+</script>
+
+<p style="font-size:14px;color:#94a3b8;margin-top:30px;text-align:center;">
+© 2025 <a href="https://globalsportszone25.blogspot.com" target="_blank" style="color:#00b4d8;text-decoration:none;">Global Sports Zone</a> — Developed by Naeem
+</p>
+
 </body>
 </html>
