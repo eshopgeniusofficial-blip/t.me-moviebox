@@ -13,6 +13,30 @@
     padding: 20px;
   }
 
+  h2 { text-align: center; margin-bottom: 10px; }
+
+  .filters {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .filter-btn {
+    background: #1e293b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .filter-btn.active {
+    background: #22c55e;
+    color: #0f172a;
+  }
+
   .match-card {
     background: #1e293b;
     border-radius: 16px;
@@ -116,60 +140,64 @@
   }
 
   @media (max-width: 600px) {
-    .team img {
-      width: 40px;
-      height: 40px;
-    }
-    .vs {
-      font-size: 16px;
-    }
+    .team img { width: 40px; height: 40px; }
+    .vs { font-size: 16px; }
   }
 </style>
 </head>
 <body>
 
-<h2 style="text-align:center;margin-bottom:20px;">⚽ Live Football Fixtures</h2>
+<h2>⚽ Live Football Fixtures</h2>
 
-<!-- MATCH 1 -->
-<div class="match-card">
-  <div class="league-badge">UEFA Champions League</div>
-  <div class="teams">
-    <div class="team">
-      <img src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg" alt="Real Madrid">
-      <div>Real Madrid</div>
-    </div>
-    <div class="vs">VS</div>
-    <div class="team">
-      <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg" alt="Liverpool">
-      <div>Liverpool</div>
-      <span class="live-badge">LIVE 🔴</span>
-    </div>
-  </div>
-  <div class="time">⏰ Match Time: 2025-11-09T02:00:00</div>
-  <div class="watch-btn">
-    <span class="countdown" data-start="2025-11-09T02:00:00" data-link="https://yourlink.com"></span>
-  </div>
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="live">Live</button>
+  <button class="filter-btn" data-filter="upcoming">Upcoming</button>
 </div>
 
-<!-- MATCH 2 -->
-<div class="match-card">
-  <div class="league-badge">UEFA Champions League</div>
-  <div class="teams">
-    <div class="team">
-      <img src="https://upload.wikimedia.org/wikipedia/en/1/15/FC_Barcelona.svg" alt="Barcelona">
-      <div>Barcelona</div>
+<div id="match-container">
+  <!-- MATCH 1 -->
+  <div class="match-card" data-start="2025-11-09T02:00:00">
+    <div class="league-badge">UEFA Champions League</div>
+    <div class="teams">
+      <div class="team">
+        <img src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg" alt="Real Madrid">
+        <div>Real Madrid</div>
+      </div>
+      <div class="vs">VS</div>
+      <div class="team">
+        <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg" alt="Liverpool">
+        <div>Liverpool</div>
+        <span class="live-badge">LIVE 🔴</span>
+      </div>
     </div>
-    <div class="vs">VS</div>
-    <div class="team">
-      <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Bayern_Munich_logo.svg" alt="Bayern Munich">
-      <div>Bayern Munich</div>
-      <span class="live-badge">LIVE 🔴</span>
+    <div class="time">⏰ Match Time: 2025-11-09T02:00:00</div>
+    <div class="watch-btn">
+      <span class="countdown" data-start="2025-11-09T02:00:00" data-link="https://yourlink.com"></span>
     </div>
   </div>
-  <div class="time">⏰ Match Time: 2025-11-09T04:00:00</div>
-  <div class="watch-btn">
-    <span class="countdown" data-start="2025-11-09T04:00:00" data-link="https://yourlink.com"></span>
+
+  <!-- MATCH 2 -->
+  <div class="match-card" data-start="2025-11-09T04:00:00">
+    <div class="league-badge">UEFA Champions League</div>
+    <div class="teams">
+      <div class="team">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/15/FC_Barcelona.svg" alt="Barcelona">
+        <div>Barcelona</div>
+      </div>
+      <div class="vs">VS</div>
+      <div class="team">
+        <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Bayern_Munich_logo.svg" alt="Bayern Munich">
+        <div>Bayern Munich</div>
+        <span class="live-badge">LIVE 🔴</span>
+      </div>
+    </div>
+    <div class="time">⏰ Match Time: 2025-11-09T04:00:00</div>
+    <div class="watch-btn">
+      <span class="countdown" data-start="2025-11-09T04:00:00" data-link="https://yourlink.com"></span>
+    </div>
   </div>
+
 </div>
 
 <script>
@@ -190,17 +218,46 @@ function updateCountdowns() {
       countdownEl.outerHTML = `<a href="${link}" target="_blank">▶ Watch Now</a>`;
       // Show LIVE badge
       liveBadge.style.display = 'inline-block';
+      match.dataset.status = 'live';
     } else {
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
       countdownEl.textContent = `Starts in ${hours}h ${minutes}m ${seconds}s`;
       liveBadge.style.display = 'none';
+      match.dataset.status = 'upcoming';
     }
   });
 }
 
-setInterval(updateCountdowns, 1000);
+// Filter Buttons
+const filterBtns = document.querySelectorAll('.filter-btn');
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    const matches = document.querySelectorAll('.match-card');
+    matches.forEach(match => {
+      if(filter === 'all'){
+        match.style.display = 'block';
+      } else if(filter === 'live' && match.dataset.status === 'live'){
+        match.style.display = 'block';
+      } else if(filter === 'upcoming' && match.dataset.status === 'upcoming'){
+        match.style.display = 'block';
+      } else {
+        match.style.display = 'none';
+      }
+    });
+  });
+});
+
+setInterval(() => {
+  updateCountdowns();
+  // Trigger filter again to update visibility
+  document.querySelector('.filter-btn.active').click();
+}, 1000);
+
 updateCountdowns();
 </script>
 
