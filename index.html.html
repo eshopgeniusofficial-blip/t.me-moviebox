@@ -1,200 +1,136 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Sports Zone</title>
+<title>Live Matches - Fixture</title>
 <style>
   body {
-    font-family: 'Poppins', sans-serif;
-    background: #0f1724;
+    font-family: "Poppins", sans-serif;
+    background: #0f172a;
     color: #fff;
     margin: 0;
     padding: 20px;
   }
-  h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #00ffd0;
-  }
-  .match-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #14202b;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 0 12px rgba(0,0,0,0.3);
-  }
-  th, td {
-    text-align: center;
-    padding: 12px;
-    border-bottom: 1px solid #1f2937;
-  }
-  th {
+
+  .match-card {
     background: #1e293b;
-    color: #00ffd0;
-  }
-  tr:hover {
-    background: rgba(255,255,255,0.05);
-  }
-  .league {
-    color: #ff4444;
-    font-weight: bold;
-  }
-  .title {
-    font-weight: bold;
-    color: #f1f5f9;
-  }
-  .countdown {
-    color: #ffd700;
-    font-weight: bold;
-  }
-  .watch {
-    background: linear-gradient(90deg,#007bff,#00ffd0);
-    color: #fff;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
+    border-radius: 16px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
     transition: 0.3s;
   }
-  .watch:hover {
-    transform: scale(1.05);
+
+  .match-card:hover {
+    transform: scale(1.02);
   }
-  .status {
+
+  .teams {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .team {
+    text-align: center;
+    width: 45%;
+  }
+
+  .team img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin-bottom: 5px;
+  }
+
+  .vs {
+    font-size: 18px;
+    color: #facc15;
     font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 8px;
-    color: white;
   }
-  .play {
+
+  .time {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 14px;
+  }
+
+  .watch-btn {
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .watch-btn a {
     background: #22c55e;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-weight: 600;
   }
-  .live {
-    background: red;
-    animation: blink 1s infinite;
+
+  .watch-btn a:hover {
+    background: #16a34a;
   }
-  .ended {
-    background: #6b7280;
-  }
-  @keyframes blink {
-    0%, 50%, 100% { opacity: 1; }
-    25%, 75% { opacity: 0; }
-  }
-  @media (max-width: 768px) {
-    th, td {
-      padding: 8px;
-      font-size: 14px;
+
+  @media (max-width: 600px) {
+    .team img {
+      width: 40px;
+      height: 40px;
+    }
+    .vs {
+      font-size: 16px;
     }
   }
 </style>
 </head>
 <body>
 
-<h2>⚽ Watch Live Football Matches – Updated Schedule</h2>
+<h2 style="text-align:center;margin-bottom:20px;">⚽ Live Football Fixtures</h2>
 
-<table class="match-table">
-  <tr>
-    <th>League</th>
-    <th>Match</th>
-    <th>Time</th>
-    <th>Countdown</th>
-    <th>Watch</th>
-    <th>Status</th>
-  </tr>
+<!-- 🟢 MATCH 1 -->
+<div class="match-card">
+  <div class="teams">
+    <div class="team">
+      <img src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg" alt="Real Madrid">
+      <div>Real Madrid</div>
+    </div>
+    <div class="vs">VS</div>
+    <div class="team">
+      <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg" alt="Liverpool">
+      <div>Liverpool</div>
+    </div>
+  </div>
+  <div class="time">⏰ Match Time: 2:00 AM (GMT)</div>
+  <div class="watch-btn">
+    <a href="https://yourlink.com">▶ Watch Now</a>
+  </div>
+</div>
 
-  <!-- 🔹 শুধু এই অংশ কপি করে নিচে নতুন ম্যাচ যোগ করো -->
-  <tr>
-    <td class="league">UEFA 25/26</td>
-    <td class="title">Liverpool vs Real Madrid</td>
-    <td>2025-11-08T23:30:00</td>
-    <td class="countdown" data-time="2025-11-08T23:30:00"></td>
-    <td>
-      <button class="watch"
-        data-adlink="https://www.effectivegatecpm.com/xkjh55mzx?key=d65d7b18dbba53fd19e9731c311b2d68"
-        data-match="https://www.808fubo11.com/football/2861071-liverpool-vs-real-madrid.html">
-        WATCH
-      </button>
-    </td>
-    <td><span class="status play">PLAY</span></td>
-  </tr>
-
-  <tr>
-    <td class="league">Premier League</td>
-    <td class="title">Arsenal vs Chelsea</td>
-    <td>2025-11-09T01:00:00</td>
-    <td class="countdown" data-time="2025-11-09T01:00:00"></td>
-    <td>
-      <button class="watch"
-        data-adlink="https://www.effectivegatecpm.com/xkjh55mzx?key=d65d7b18dbba53fd19e9731c311b2d68"
-        data-match="https://www.808fubo11.com/football/2861140-slavia-praha-vs-arsenal.html">
-        WATCH
-      </button>
-    </td>
-    <td><span class="status play">PLAY</span></td>
-  </tr>
-  <!-- 🔹 এখানেই যত খুশি ম্যাচ যোগ করো -->
-</table>
-
-<script>
-// Countdown + Status update
-function updateCountdowns() {
-  const rows = document.querySelectorAll('tr');
-  const now = new Date().getTime();
-
-  rows.forEach(row => {
-    const countdownEl = row.querySelector('.countdown');
-    const statusEl = row.querySelector('.status');
-    if (!countdownEl || !statusEl) return;
-
-    const matchTime = new Date(countdownEl.dataset.time).getTime();
-    if (!matchTime) return;
-
-    const matchDuration = 8 * 60 * 60 * 1000; // 8 hours duration
-    const endTime = matchTime + matchDuration;
-    const distance = matchTime - now;
-    const endDistance = endTime - now;
-
-    if (distance <= 0 && endDistance > 0) {
-      countdownEl.textContent = "Now Live";
-      statusEl.textContent = "LIVE";
-      statusEl.className = "status live";
-      return;
-    }
-    if (endDistance <= 0) {
-      countdownEl.textContent = "Ended";
-      statusEl.textContent = "ENDED";
-      statusEl.className = "status ended";
-      return;
-    }
-
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((distance % (1000 * 60)) / 1000);
-
-    countdownEl.textContent = `${hours}h ${mins}m ${secs}s`;
-  });
-}
-setInterval(updateCountdowns, 1000);
-updateCountdowns();
-
-// Watch button redirect system
-document.querySelectorAll('.watch').forEach(btn => {
-  btn.addEventListener('click', function() {
-    const adLink = this.dataset.adlink;
-    const matchLink = this.dataset.match;
-    if (adLink && matchLink) {
-      window.open(adLink, '_blank'); // নতুন ট্যাবে Adsterra লিংক
-      window.location.href = matchLink; // মূল ট্যাবে ম্যাচ
-    }
-  });
-});
-</script>
-
-<p style="font-size:14px; color:#aaa; text-align:center; margin-top:30px;">
-© 2025 <a href="https://globalsportszone25.blogspot.com" target="_blank" style="color:#00ffd0; text-decoration:none;">Global Sports Zone</a> — Developed by Naeem
-</p>
+<!-- 🟡 MATCH 2 -->
+<div class="match-card">
+  <div class="teams">
+    <div class="team">
+      <img src="https://upload.wikimedia.org/wikipedia/en/1/15/FC_Barcelona.svg" alt="Barcelona">
+      <div>Barcelona</div>
+    </div>
+    <div class="vs">VS</div>
+    <div class="team">
+      <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Bayern_Munich_logo.svg" alt="Bayern Munich">
+      <div>Bayern Munich</div>
+    </div>
+  </div>
+  <div class="time">⏰ Match Time: 4:00 AM (GMT)</div>
+  <div class="watch-btn">
+    <a href="https://yourlink.com">▶ Watch Now</a>
+  </div>
+</div>
 
 </body>
 </html>
